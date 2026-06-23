@@ -1,0 +1,232 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 700" width="100%" height="100%" style="background-color: #f4f7fa; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+  <defs>
+    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#e5e8eb" stroke-width="0.8"/>
+    </pattern>
+    <style>
+      .title-text { font-family: 'Inter', sans-serif; font-weight: 700; fill: #002d54; }
+      .normal-text { font-family: 'Inter', sans-serif; fill: #334155; }
+      .muted-text { font-family: 'Inter', sans-serif; fill: #64748b; }
+      .sidebar-section { font-family: 'Inter', sans-serif; font-weight: 700; fill: #94a3b8; font-size: 10px; letter-spacing: 0.8px; }
+      .sidebar-link { font-family: 'Inter', sans-serif; font-weight: 600; fill: #cbd5e1; font-size: 13.5px; }
+      .sidebar-link.active { fill: #ffffff; font-weight: 700; }
+      .browser-url { font-family: monospace; fill: #334155; font-size: 11px; }
+      .browser-title { font-family: 'Inter', sans-serif; font-weight: 500; fill: #475569; font-size: 10px; }
+      .wireframe-stroke { stroke: #002d54; stroke-width: 1.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      .label-text { font-family: 'Inter', sans-serif; font-weight: 600; fill: #1e293b; font-size: 12.5px; }
+      .placeholder-text { font-family: 'Inter', sans-serif; fill: #64748b; font-size: 13px; }
+      .button-text { font-family: 'Inter', sans-serif; font-weight: 600; fill: #ffffff; font-size: 13px; }
+      .blade-code { font-family: monospace; fill: #0f172a; font-weight: bold; font-size: 10px; }
+    </style>
+  </defs>
+
+  <!-- Draw Grid Background -->
+  <rect width="1000" height="700" fill="url(#grid)" />
+
+  <!-- Browser Window Wrapper -->
+  <g id="browser-window">
+    <rect x="15" y="15" width="970" height="670" rx="8" fill="#ffffff" stroke="#002d54" stroke-width="2.5" />
+    <line x1="15" y1="55" x2="985" y2="55" stroke="#002d54" stroke-width="2.5" />
+    
+    <!-- Window Controls -->
+    <circle cx="40" cy="35" r="4.5" class="wireframe-stroke" />
+    <circle cx="56" cy="35" r="4.5" class="wireframe-stroke" />
+    <circle cx="72" cy="35" r="4.5" class="wireframe-stroke" />
+    
+    <!-- Browser Tab -->
+    <path d="M 95 55 L 105 30 L 245 30 L 255 55 Z" fill="#ffffff" stroke="#002d54" stroke-width="2" />
+    <text x="175" y="44" text-anchor="middle" class="browser-title">Tambah Dokumen - Sistem Arsip PT Bank Sumut</text>
+    <line x1="103.5" y1="54.5" x2="246.5" y2="54.5" stroke="#ffffff" stroke-width="3" />
+    
+    <!-- Address Bar -->
+    <rect x="275" y="27" width="560" height="20" rx="4" class="wireframe-stroke" />
+    <path d="M 285 38 L 285 35 A 1.5 1.5 0 0 1 288 35 L 288 38 Z M 283 38 L 290 38 L 290 43 L 283 43 Z" fill="none" stroke="#002d54" stroke-width="1.2" />
+    <text x="298" y="41" class="browser-url">http://localhost:8000/dokumen/create</text>
+  </g>
+
+  <!-- Sidebar Component -->
+  <g id="sidebar">
+    <path d="M 15 55 L 275 55 L 275 685 L 15 685 Z" fill="#002d54" stroke="#002d54" stroke-width="1" />
+    
+    <!-- Sidebar Brand -->
+    <g transform="translate(35, 75)">
+      <circle cx="24" cy="24" r="20" fill="#ffffff" stroke="#e06b00" stroke-width="2" />
+      <path d="M 24 12 L 34 24 L 24 36 L 14 24 Z" fill="none" stroke="#002d54" stroke-width="1.5" />
+      <text x="56" y="20" class="title-text" font-size="12" font-weight="bold" fill="#ffffff">SISTEM INFORMASI ARSIP</text>
+      <text x="56" y="34" class="muted-text" font-size="10.5" fill="#94a3b8">PT Bank Sumut</text>
+      <line x1="-20" y1="55" x2="240" y2="55" stroke="#e06b00" stroke-width="3" />
+    </g>
+
+    <!-- Sidebar Navigation -->
+    <g transform="translate(35, 150)">
+      <text x="0" y="0" class="sidebar-section">MENU UTAMA</text>
+      <g transform="translate(-20, 10)">
+        <rect x="18" y="10" width="14" height="14" class="wireframe-stroke" stroke="#94a3b8" />
+        <text x="42" y="22" class="sidebar-link">Dashboard</text>
+      </g>
+      <g transform="translate(-20, 50)">
+        <rect x="18" y="10" width="14" height="14" class="wireframe-stroke" stroke="#94a3b8" />
+        <text x="42" y="22" class="sidebar-link">Kelola Rak</text>
+      </g>
+      <g transform="translate(-20, 90)">
+        <rect x="18" y="10" width="14" height="14" class="wireframe-stroke" stroke="#94a3b8" />
+        <text x="42" y="22" class="sidebar-link">Kelola Box</text>
+      </g>
+      <g transform="translate(-20, 130)">
+        <path d="M 0 0 L 240 0 L 240 34 L 0 34 Z" fill="#004b87" />
+        <line x1="0" y1="0" x2="0" y2="34" stroke="#e06b00" stroke-width="4" />
+        <rect x="18" y="10" width="14" height="14" class="wireframe-stroke" stroke="#ffffff" />
+        <text x="42" y="22" class="sidebar-link active">Kelola Dokumen</text>
+      </g>
+      <text x="0" y="195" class="sidebar-section">FITUR</text>
+      <g transform="translate(-20, 205)">
+        <circle cx="25" cy="17" r="5" class="wireframe-stroke" stroke="#94a3b8" />
+        <line x1="29" y1="21" x2="33" y2="25" stroke="#94a3b8" stroke-width="1.5" />
+        <text x="42" y="22" class="sidebar-link">Cari Dokumen</text>
+      </g>
+      <g transform="translate(-20, 245)">
+        <circle cx="25" cy="17" r="6" class="wireframe-stroke" stroke="#94a3b8" />
+        <line x1="25" y1="13" x2="25" y2="17" stroke="#94a3b8" stroke-width="1.2" />
+        <line x1="25" y1="17" x2="29" y2="17" stroke="#94a3b8" stroke-width="1.2" />
+        <text x="42" y="22" class="sidebar-link">Retensi Dokumen</text>
+      </g>
+      <g transform="translate(-20, 285)">
+        <path d="M 21 21 L 29 21 A 4 4 0 0 0 25 15 Z" fill="none" stroke="#94a3b8" stroke-width="1.5" />
+        <circle cx="25" cy="22" r="1.5" fill="#94a3b8" />
+        <text x="42" y="22" class="sidebar-link">Notifikasi</text>
+      </g>
+      <text x="0" y="350" class="sidebar-section">PENGATURAN</text>
+      <g transform="translate(-20, 360)">
+        <rect x="18" y="10" width="14" height="14" class="wireframe-stroke" stroke="#94a3b8" rx="3" />
+        <text x="42" y="22" class="sidebar-link">Manajemen User</text>
+      </g>
+    </g>
+    <g transform="translate(35, 620)">
+      <line x1="-20" y1="-10" x2="240" y2="-10" stroke="#004b87" stroke-width="1" />
+      <rect x="-10" y="5" width="220" height="40" rx="10" fill="#2d1d24" stroke="#e11d48" stroke-width="1.5" />
+      <path d="M 12 25 L 22 25 M 18 21 L 22 25 L 18 29" fill="none" stroke="#f87171" stroke-width="1.5" />
+      <text x="36" y="29" class="sidebar-link" font-size="14" fill="#fca5a5" font-weight="bold">Logout</text>
+    </g>
+  </g>
+
+  <!-- Main Content Wrapper -->
+  <g id="main-content" transform="translate(275, 55)">
+    
+    <!-- Topbar Component -->
+    <g id="topbar" transform="translate(20, 20)">
+      <rect x="0" y="0" width="670" height="68" rx="16" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" />
+      <text x="20" y="28" class="title-text" font-size="16" font-weight="bold">Tambah Dokumen Baru</text>
+      <text x="20" y="48" class="muted-text" font-size="12">Pencatatan data kearsipan bank baru</text>
+      
+      <!-- Action Buttons (Kembali) -->
+      <g transform="translate(565, 19)">
+        <rect x="0" y="0" width="85" height="30" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" />
+        <path d="M 12 15 L 22 15 M 16 11 L 12 15 L 16 19" fill="none" stroke="#002d54" stroke-width="1.5" />
+        <text x="30" y="19" class="title-text" font-size="11" font-weight="bold">Kembali</text>
+      </g>
+    </g>
+
+    <!-- Form Card Component -->
+    <g id="form-card" transform="translate(20, 108)">
+      <rect x="0" y="0" width="670" height="520" rx="16" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" />
+      
+      <!-- Left Column Inputs -->
+      <g transform="translate(24, 24)">
+        <!-- Field 1: Nomor Surat -->
+        <g transform="translate(0, 0)">
+          <text x="0" y="11" class="label-text">Nomor Surat / Dokumen <tspan fill="#ff0000">*</tspan></text>
+          <rect x="0" y="18" width="296" height="34" rx="10" fill="none" stroke="#b2c0cc" stroke-width="1.5" />
+          <text x="12" y="39.5" class="blade-code" font-size="9.5">value="{{ old('no_surat') }}"</text>
+        </g>
+
+        <!-- Field 2: Kategori -->
+        <g transform="translate(0, 68)">
+          <text x="0" y="11" class="label-text">Kategori <tspan fill="#ff0000">*</tspan></text>
+          <rect x="0" y="18" width="296" height="34" rx="10" fill="none" stroke="#b2c0cc" stroke-width="1.5" />
+          <text x="12" y="39.5" class="blade-code" font-size="9.5">value="{{ old('kategori') }}"</text>
+        </g>
+
+        <!-- Field 3: Jenis Dokumen -->
+        <g transform="translate(0, 136)">
+          <text x="0" y="11" class="label-text">Jenis Dokumen <tspan fill="#ff0000">*</tspan></text>
+          <rect x="0" y="18" width="296" height="34" rx="10" fill="none" stroke="#b2c0cc" stroke-width="1.5" />
+          <text x="12" y="40" class="normal-text" font-size="13">Fisik</text>
+          <path d="M 275 32 L 280 37 L 285 32" fill="none" stroke="#64748b" stroke-width="1.5" />
+        </g>
+
+        <!-- Field 4: Tanggal Kadaluarsa Retensi -->
+        <g transform="translate(0, 204)">
+          <text x="0" y="11" class="label-text">Tanggal Kadaluarsa Retensi <tspan fill="#ff0000">*</tspan></text>
+          <rect x="0" y="18" width="296" height="34" rx="10" fill="none" stroke="#b2c0cc" stroke-width="1.5" />
+          <text x="12" y="39.5" class="blade-code" font-size="9.5">value="{{ old('tgl_kadaluarsa') }}"</text>
+          <rect x="270" y="26" width="14" height="14" rx="2" fill="none" stroke="#64748b" stroke-width="1.2" />
+          <line x1="270" y1="30" x2="284" y2="30" stroke="#64748b" />
+        </g>
+      </g>
+
+      <!-- Right Column Inputs -->
+      <g transform="translate(350, 24)">
+        <!-- Field 1: Nama Dokumen -->
+        <g transform="translate(0, 0)">
+          <text x="0" y="11" class="label-text">Nama Dokumen <tspan fill="#ff0000">*</tspan></text>
+          <rect x="0" y="18" width="296" height="34" rx="10" fill="none" stroke="#b2c0cc" stroke-width="1.5" />
+          <text x="12" y="39.5" class="blade-code" font-size="9.5">value="{{ old('nama_dokumen') }}"</text>
+        </g>
+
+        <!-- Field 2: Pilih Wadah Box -->
+        <g transform="translate(0, 68)">
+          <text x="0" y="11" class="label-text">Pilih Wadah Box <tspan fill="#ff0000">*</tspan></text>
+          <rect x="0" y="18" width="296" height="34" rx="10" fill="none" stroke="#b2c0cc" stroke-width="1.5" />
+          <text x="8" y="39" class="blade-code" font-size="8.5">{{ $box->kode_box }} (Rak: {{ $box->rak->kode_rak }})</text>
+          <path d="M 275 32 L 280 37 L 285 32" fill="none" stroke="#64748b" stroke-width="1.5" />
+        </g>
+
+        <!-- Field 3: Tanggal Masuk -->
+        <g transform="translate(0, 136)">
+          <text x="0" y="11" class="label-text">Tanggal Masuk <tspan fill="#ff0000">*</tspan></text>
+          <rect x="0" y="18" width="296" height="34" rx="10" fill="none" stroke="#b2c0cc" stroke-width="1.5" />
+          <text x="12" y="39.5" class="blade-code" font-size="9.5">value="{{ date('Y-m-d') }}"</text>
+          <rect x="270" y="26" width="14" height="14" rx="2" fill="none" stroke="#64748b" stroke-width="1.2" />
+          <line x1="270" y1="30" x2="284" y2="30" stroke="#64748b" />
+        </g>
+
+        <!-- Field 4: Keterangan Aturan Retensi -->
+        <g transform="translate(0, 204)">
+          <text x="0" y="11" class="label-text">Keterangan Aturan Retensi</text>
+          <rect x="0" y="18" width="296" height="34" rx="10" fill="none" stroke="#b2c0cc" stroke-width="1.5" />
+          <text x="12" y="39.5" class="blade-code" font-size="9.5">value="{{ old('ket_retensi') }}"</text>
+        </g>
+      </g>
+
+      <!-- Row: Lampiran Dokumen Digital -->
+      <g transform="translate(24, 276)">
+        <text x="0" y="11" class="label-text">Lampiran Dokumen Digital <tspan fill="#64748b" font-weight="normal">(Opsional)</tspan></text>
+        <rect x="0" y="18" width="622" height="68" rx="12" fill="none" stroke="#004b87" stroke-width="1.5" stroke-dasharray="4 4" />
+        <g transform="translate(311, 28)">
+          <rect x="-8" y="0" width="16" height="20" fill="none" stroke="#ef4444" stroke-width="1.5" />
+          <line x1="-8" y1="5" x2="8" y2="5" stroke="#ef4444" stroke-width="1.5" />
+          <text x="0" y="32" text-anchor="middle" class="placeholder-text" font-size="11.5">Klik area ini untuk melampirkan file berkas (PDF, Gambar - Maks 5MB)</text>
+        </g>
+      </g>
+
+      <!-- Row: Catatan Keterangan Tambahan -->
+      <g transform="translate(24, 372)">
+        <text x="0" y="11" class="label-text">Catatan Keterangan Tambahan</text>
+        <rect x="0" y="18" width="622" height="54" rx="10" fill="none" stroke="#b2c0cc" stroke-width="1.5" />
+        <text x="12" y="39.5" class="blade-code" font-size="9.5">{{ old('keterangan') }}</text>
+      </g>
+
+      <!-- Card Action Buttons -->
+      <g transform="translate(24, 460)">
+        <line x1="-24" y1="-5" x2="646" y2="-5" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="3 3" />
+        
+        <rect x="0" y="10" width="160" height="34" rx="10" fill="#004b87" stroke="#004b87" stroke-width="1" />
+        <rect x="14" y="19" width="12" height="12" fill="none" stroke="#ffffff" stroke-width="1.5" />
+        <text x="85" y="32" text-anchor="middle" class="button-text" font-size="12">Simpan Dokumen</text>
+        
+        <rect x="172" y="10" width="80" height="34" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.5" />
+        <text x="212" y="32" text-anchor="middle" class="normal-text" font-size="12" font-weight="bold">Batal</text>
+      </g>
+    </g>
+  </g>
+</svg>

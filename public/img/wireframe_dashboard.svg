@@ -1,0 +1,286 @@
+<svg width="1000" height="700" viewBox="0 0 1000 700" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Styles for standard wireframe look -->
+  <style>
+    .wireframe-line { stroke: #000000; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .wireframe-line-thin { stroke: #000000; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+    .wireframe-text { font-family: 'Inter', 'Arial', sans-serif; fill: #000000; }
+    .wireframe-text-muted { font-family: 'Inter', 'Arial', sans-serif; fill: #666666; }
+    .wireframe-text-code { font-family: 'Courier New', Courier, monospace; fill: #000000; }
+  </style>
+
+  <!-- Background Canvas -->
+  <rect width="1000" height="700" fill="#FFFFFF" />
+
+  <!-- Web Browser Window -->
+  <rect x="20" y="20" width="960" height="660" rx="8" class="wireframe-line" />
+  <!-- Browser Header Separator -->
+  <line x1="20" y1="60" x2="980" y2="60" class="wireframe-line" />
+  
+  <!-- Browser Window Controls (3 dots) -->
+  <circle cx="45" cy="40" r="6" class="wireframe-line-thin" />
+  <circle cx="65" cy="40" r="6" class="wireframe-line-thin" />
+  <circle cx="85" cy="40" r="6" class="wireframe-line-thin" />
+
+  <!-- Address Bar -->
+  <rect x="120" y="30" width="800" height="20" rx="4" class="wireframe-line-thin" />
+  <text x="130" y="44" font-size="11" class="wireframe-text-code">http://localhost:8000/dashboard</text>
+
+  <!-- ================= SIDEBAR (Left) ================= -->
+  <!-- Vertical Divider -->
+  <line x1="220" y1="60" x2="220" y2="680" class="wireframe-line" />
+
+  <!-- Sidebar Brand -->
+  <!-- Circular Logo Placeholder -->
+  <circle cx="120" cy="95" r="18" class="wireframe-line" />
+  <line x1="107" y1="82" x2="133" y2="108" class="wireframe-line-thin" />
+  <line x1="133" y1="82" x2="107" y2="108" class="wireframe-line-thin" />
+  
+  <text x="120" y="125" font-size="10" font-weight="bold" text-anchor="middle" class="wireframe-text">SISTEM INFORMASI ARSIP</text>
+  <text x="120" y="137" font-size="8" font-weight="bold" text-anchor="middle" class="wireframe-text-muted">PT Bank Sumut</text>
+  <!-- Orange Stripe Equivalent (Thicker Line) -->
+  <line x1="20" y1="148" x2="220" y2="148" stroke="#000000" stroke-width="3" />
+
+  <!-- Sidebar Navigation -->
+  <!-- Section 1: Menu Utama -->
+  <text x="35" y="172" font-size="8" font-weight="bold" class="wireframe-text-muted">MENU UTAMA</text>
+  
+  <!-- Dashboard (Active) -->
+  <rect x="25" y="182" width="190" height="26" rx="4" class="wireframe-line-thin" />
+  <line x1="25" y1="182" x2="25" y2="208" stroke="#000000" stroke-width="4" />
+  <!-- Speedometer Icon -->
+  <circle cx="38" cy="195" r="5" class="wireframe-line-thin" />
+  <line x1="38" y1="195" x2="41" y2="191" class="wireframe-line-thin" />
+  <text x="50" y="198" font-size="10" font-weight="bold" class="wireframe-text">Dashboard</text>
+
+  <!-- Kelola Rak -->
+  <!-- Archive Icon -->
+  <rect x="33" y="218" width="10" height="8" rx="1" class="wireframe-line-thin" />
+  <line x1="33" y1="222" x2="43" y2="222" class="wireframe-line-thin" />
+  <text x="50" y="225" font-size="10" class="wireframe-text">Kelola Rak</text>
+
+  <!-- Kelola Box -->
+  <!-- Box Icon -->
+  <rect x="33" y="244" width="10" height="8" rx="1.5" class="wireframe-line-thin" />
+  <line x1="33" y1="244" x2="38" y2="248" class="wireframe-line-thin" />
+  <line x1="43" y1="244" x2="38" y2="248" class="wireframe-line-thin" />
+  <text x="50" y="251" font-size="10" class="wireframe-text">Kelola Box</text>
+
+  <!-- Kelola Dokumen -->
+  <!-- Document Icon -->
+  <rect x="34" y="269" width="8" height="10" rx="1" class="wireframe-line-thin" />
+  <line x1="36" y1="273" x2="40" y2="273" class="wireframe-line-thin" />
+  <line x1="36" y1="276" x2="40" y2="276" class="wireframe-line-thin" />
+  <text x="50" y="277" font-size="10" class="wireframe-text">Kelola Dokumen</text>
+
+  <!-- Section 2: Fitur -->
+  <text x="35" y="306" font-size="8" font-weight="bold" class="wireframe-text-muted">FITUR</text>
+  
+  <!-- Cari Dokumen -->
+  <!-- Search Icon -->
+  <circle cx="37" cy="320" r="3.5" class="wireframe-line-thin" />
+  <line x1="39.5" y1="322.5" x2="43" y2="326" class="wireframe-line-thin" />
+  <text x="50" y="324" font-size="10" class="wireframe-text">Cari Dokumen</text>
+
+  <!-- Retensi Dokumen -->
+  <!-- Clock Icon -->
+  <circle cx="38" cy="346" r="4.5" class="wireframe-line-thin" />
+  <line x1="38" y1="343" x2="38" y2="346" class="wireframe-line-thin" />
+  <line x1="38" y1="346" x2="41" y2="346" class="wireframe-line-thin" />
+  <text x="50" y="350" font-size="10" class="wireframe-text">Retensi Dokumen</text>
+
+  <!-- Notifikasi -->
+  <!-- Bell Icon -->
+  <path d="M 38,370 C 35,370 35,376 35,376 H 41 C 41,376 41,370 38,370 Z" class="wireframe-line-thin" />
+  <circle cx="38" cy="377" r="1" class="wireframe-line-thin" />
+  <text x="50" y="376" font-size="10" class="wireframe-text">Notifikasi</text>
+
+  <!-- Section 3: Pengaturan -->
+  <text x="35" y="405" font-size="8" font-weight="bold" class="wireframe-text-muted">PENGATURAN</text>
+  
+  <!-- Manajemen User -->
+  <!-- Users Icon -->
+  <circle cx="35" cy="417" r="2.5" class="wireframe-line-thin" />
+  <path d="M 31,424 C 31,421 39,421 39,424" class="wireframe-line-thin" />
+  <circle cx="41" cy="417" r="2" class="wireframe-line-thin" />
+  <text x="50" y="422" font-size="10" class="wireframe-text">Manajemen User</text>
+
+  <!-- Sidebar Logout -->
+  <line x1="20" y1="620" x2="220" y2="620" class="wireframe-line-thin" />
+  <rect x="35" y="632" width="150" height="30" rx="6" class="wireframe-line-thin" />
+  <!-- Logout icon -->
+  <rect x="50" y="642" width="8" height="10" rx="1.5" class="wireframe-line-thin" />
+  <path d="M 54,642 H 60 V 652 H 54" class="wireframe-line-thin" />
+  <path d="M 52,647 H 57 L 55,645 M 57,647 L 55,649" class="wireframe-line-thin" />
+  <text x="105" y="651" font-size="10" font-weight="bold" text-anchor="middle" class="wireframe-text">Logout</text>
+
+
+  <!-- ================= MAIN CONTENT (Right) ================= -->
+  
+  <!-- Topbar -->
+  <rect x="240" y="80" width="720" height="50" rx="8" class="wireframe-line-thin" />
+  <text x="255" y="103" font-size="13" font-weight="bold" class="wireframe-text">Dashboard</text>
+  <text x="255" y="118" font-size="9" class="wireframe-text-muted">Selamat datang kembali, <tspan font-weight="bold">Super Admin</tspan>!</text>
+  
+  <!-- Role Badge -->
+  <rect x="730" y="93" width="90" height="24" rx="12" class="wireframe-line-thin" />
+  <text x="775" y="108" font-size="9" font-weight="bold" text-anchor="middle" class="wireframe-text">Super Admin</text>
+  
+  <!-- Calendar Date -->
+  <!-- Calendar Icon -->
+  <rect x="835" y="97" width="12" height="12" rx="2" class="wireframe-line-thin" />
+  <line x1="835" y1="101" x2="847" y2="101" class="wireframe-line-thin" />
+  <text x="852" y="107" font-size="9" font-weight="bold" class="wireframe-text">Selasa, 16 Juni 2026</text>
+
+
+  <!-- Statistics Cards Row -->
+  <!-- Card 1: Total Rak -->
+  <rect x="240" y="150" width="165" height="75" rx="8" class="wireframe-line-thin" />
+  <line x1="240" y1="151.5" x2="405" y2="151.5" stroke="#000000" stroke-width="3" />
+  <text x="252" y="174" font-size="9" font-weight="bold" class="wireframe-text-muted">Total Rak</text>
+  <text x="252" y="206" font-size="20" font-weight="bold" class="wireframe-text">6</text>
+  <rect x="350" y="168" width="38" height="38" rx="8" class="wireframe-line-thin" />
+  <!-- Drawer Icon in stat card -->
+  <rect x="359" y="176" width="20" height="10" rx="1.5" class="wireframe-line-thin" />
+  <line x1="369" y1="181" x2="369" y2="183" class="wireframe-line-thin" />
+  <rect x="359" y="188" width="20" height="10" rx="1.5" class="wireframe-line-thin" />
+  <line x1="369" y1="193" x2="369" y2="195" class="wireframe-line-thin" />
+
+  <!-- Card 2: Total Box -->
+  <rect x="425" y="150" width="165" height="75" rx="8" class="wireframe-line-thin" />
+  <line x1="425" y1="151.5" x2="590" y2="151.5" stroke="#000000" stroke-width="3" />
+  <text x="437" y="174" font-size="9" font-weight="bold" class="wireframe-text-muted">Total Box</text>
+  <text x="437" y="206" font-size="20" font-weight="bold" class="wireframe-text">12</text>
+  <rect x="535" y="168" width="38" height="38" rx="8" class="wireframe-line-thin" />
+  <!-- Box icon in stat card -->
+  <rect x="544" y="178" width="20" height="15" rx="2" class="wireframe-line-thin" />
+  <line x1="544" y1="182" x2="564" y2="182" class="wireframe-line-thin" />
+  <line x1="554" y1="178" x2="554" y2="182" class="wireframe-line-thin" />
+
+  <!-- Card 3: Total Dokumen -->
+  <rect x="610" y="150" width="165" height="75" rx="8" class="wireframe-line-thin" />
+  <line x1="610" y1="151.5" x2="775" y2="151.5" stroke="#000000" stroke-width="3" />
+  <text x="622" y="174" font-size="9" font-weight="bold" class="wireframe-text-muted">Total Dokumen</text>
+  <text x="622" y="206" font-size="20" font-weight="bold" class="wireframe-text">61</text>
+  <rect x="720" y="168" width="38" height="38" rx="8" class="wireframe-line-thin" />
+  <!-- Doc icon in stat card -->
+  <rect x="731" y="178" width="16" height="18" rx="2" class="wireframe-line-thin" />
+  <line x1="735" y1="184" x2="743" y2="184" class="wireframe-line-thin" />
+  <line x1="735" y1="188" x2="743" y2="188" class="wireframe-line-thin" />
+
+  <!-- Card 4: Perlu Dimusnahkan -->
+  <rect x="795" y="150" width="165" height="75" rx="8" class="wireframe-line-thin" />
+  <line x1="795" y1="151.5" x2="960" y2="151.5" stroke="#000000" stroke-width="3" />
+  <text x="807" y="174" font-size="9" font-weight="bold" class="wireframe-text-muted">Perlu Dimusnahkan</text>
+  <text x="807" y="206" font-size="20" font-weight="bold" class="wireframe-text">0</text>
+  <rect x="905" y="168" width="38" height="38" rx="8" class="wireframe-line-thin" />
+  <!-- Warning Triangle Icon in stat card -->
+  <path d="M 924,176 L 934,196 H 914 Z" class="wireframe-line-thin" />
+  <line x1="924" y1="183" x2="924" y2="189" class="wireframe-line-thin" />
+  <circle cx="924" cy="192" r="0.8" fill="#000000" />
+
+
+  <!-- Content Widgets -->
+  <!-- Left Widget: Dokumen Terbaru -->
+  <rect x="240" y="245" width="465" height="400" rx="10" class="wireframe-line-thin" />
+  
+  <!-- Header of Widget -->
+  <!-- Document Icon -->
+  <rect x="257" y="263" width="12" height="14" rx="1.5" class="wireframe-line-thin" />
+  <line x1="260" y1="267" x2="266" y2="267" class="wireframe-line-thin" />
+  <line x1="260" y1="271" x2="266" y2="271" class="wireframe-line-thin" />
+  <text x="276" y="275" font-size="12" font-weight="bold" class="wireframe-text">Dokumen Terbaru</text>
+  <line x1="240" y1="290" x2="705" y2="290" class="wireframe-line-thin" />
+
+  <!-- Table Head -->
+  <rect x="240" y="290" width="465" height="25" fill="#F5F5F5" stroke="#000000" stroke-width="1" />
+  <text x="255" y="306" font-size="9" font-weight="bold" class="wireframe-text-muted">Nama Dokumen</text>
+  <text x="410" y="306" font-size="9" font-weight="bold" class="wireframe-text-muted">Kategori</text>
+  <text x="520" y="306" font-size="9" font-weight="bold" class="wireframe-text-muted">Jenis</text>
+  <text x="610" y="306" font-size="9" font-weight="bold" class="wireframe-text-muted">Tgl Masuk</text>
+
+  <!-- Row 1 -->
+  <text x="255" y="332" font-size="8.5" font-weight="bold" class="wireframe-text">SK Pengangkatan Pegawai Baru 2020</text>
+  <text x="410" y="332" font-size="9.5" class="wireframe-text-muted">Surat Masuk</text>
+  <!-- Fisik Badge -->
+  <rect x="520" y="320" width="48" height="16" rx="4" class="wireframe-line-thin" />
+  <text x="544" y="331" font-size="8" font-weight="bold" text-anchor="middle" class="wireframe-text">Fisik</text>
+  <text x="610" y="332" font-size="9.5" class="wireframe-text-muted">16/06/2020</text>
+  <line x1="240" y1="342" x2="705" y2="342" class="wireframe-line-thin" />
+
+  <!-- Row 2 -->
+  <text x="255" y="372" font-size="8.5" font-weight="bold" class="wireframe-text">SK Tim Pengembang Arsip 2026</text>
+  <text x="410" y="372" font-size="9.5" class="wireframe-text-muted">Surat Keluar</text>
+  <!-- Fisik Badge -->
+  <rect x="520" y="360" width="48" height="16" rx="4" class="wireframe-line-thin" />
+  <text x="544" y="371" font-size="8" font-weight="bold" text-anchor="middle" class="wireframe-text">Fisik</text>
+  <text x="610" y="372" font-size="9.5" class="wireframe-text-muted">15/06/2026</text>
+  <line x1="240" y1="382" x2="705" y2="382" class="wireframe-line-thin" />
+
+  <!-- Row 3 -->
+  <text x="255" y="412" font-size="8.5" font-weight="bold" class="wireframe-text">SK Tim CSR</text>
+  <text x="410" y="412" font-size="9.5" class="wireframe-text-muted">SK</text>
+  <!-- Fisik Badge -->
+  <rect x="520" y="400" width="48" height="16" rx="4" class="wireframe-line-thin" />
+  <text x="544" y="411" font-size="8" font-weight="bold" text-anchor="middle" class="wireframe-text">Fisik</text>
+  <text x="610" y="412" font-size="9.5" class="wireframe-text-muted">05/06/2026</text>
+  <line x1="240" y1="422" x2="705" y2="422" class="wireframe-line-thin" />
+
+  <!-- Row 4 -->
+  <text x="255" y="452" font-size="8.5" font-weight="bold" class="wireframe-text">SK Kebijakan Layanan Digital</text>
+  <text x="410" y="452" font-size="9.5" class="wireframe-text-muted">SK</text>
+  <!-- Digital Badge -->
+  <rect x="520" y="440" width="48" height="16" rx="4" class="wireframe-line-thin" />
+  <text x="544" y="451" font-size="8" font-weight="bold" text-anchor="middle" class="wireframe-text">Digital</text>
+  <text x="610" y="452" font-size="9.5" class="wireframe-text-muted">01/06/2026</text>
+  <line x1="240" y1="462" x2="705" y2="462" class="wireframe-line-thin" />
+
+  <!-- Row 5 -->
+  <text x="255" y="492" font-size="8.5" font-weight="bold" class="wireframe-text">Kontrak Upgrade Firewall</text>
+  <text x="410" y="492" font-size="9.5" class="wireframe-text-muted">Kontrak</text>
+  <!-- Digital Badge -->
+  <rect x="520" y="480" width="48" height="16" rx="4" class="wireframe-line-thin" />
+  <text x="544" y="491" font-size="8" font-weight="bold" text-anchor="middle" class="wireframe-text">Digital</text>
+  <text x="610" y="492" font-size="9.5" class="wireframe-text-muted">21/05/2026</text>
+  <line x1="240" y1="502" x2="705" y2="502" class="wireframe-line-thin" />
+
+
+  <!-- Right Widget: Notifikasi Retensi -->
+  <rect x="725" y="245" width="235" height="400" rx="10" class="wireframe-line-thin" />
+  
+  <!-- Header of Widget -->
+  <!-- Bell Icon -->
+  <path d="M 744,261 C 742,261 742,266 742,266 H 748 C 748,266 748,261 744,261 Z" class="wireframe-line-thin" />
+  <circle cx="744" cy="267" r="1.2" class="wireframe-line-thin" />
+  <text x="758" y="274" font-size="12" font-weight="bold" class="wireframe-text">Notifikasi Retensi</text>
+  <line x1="725" y1="290" x2="960" y2="290" class="wireframe-line-thin" />
+
+  <!-- Notification 1 -->
+  <text x="735" y="308" font-size="8" font-weight="bold" class="wireframe-text">No Surat 024/01/OJK/2026 telah</text>
+  <text x="735" y="320" font-size="8" font-weight="bold" class="wireframe-text">melewati retensi &amp; siap dimusnahkan</text>
+  <!-- Small clock icon -->
+  <circle cx="742" cy="333" r="3" class="wireframe-line-thin" />
+  <line x1="742" y1="331" x2="742" y2="333" class="wireframe-line-thin" />
+  <line x1="742" y1="333" x2="744" y2="333" class="wireframe-line-thin" />
+  <text x="750" y="336" font-size="8" class="wireframe-text-muted">7 jam yang lalu</text>
+  <line x1="725" y1="344" x2="960" y2="344" class="wireframe-line-thin" />
+
+  <!-- Notification 2 -->
+  <text x="735" y="362" font-size="8" font-weight="bold" class="wireframe-text">No Surat 001/DIR/SDM/2020 akan</text>
+  <text x="735" y="374" font-size="8" font-weight="bold" class="wireframe-text">kadaluarsa dalam 0 hari</text>
+  <!-- Small clock icon -->
+  <circle cx="742" cy="387" r="3" class="wireframe-line-thin" />
+  <line x1="742" y1="385" x2="742" y2="387" class="wireframe-line-thin" />
+  <line x1="742" y1="387" x2="744" y2="387" class="wireframe-line-thin" />
+  <text x="750" y="390" font-size="8" class="wireframe-text-muted">7 jam yang lalu</text>
+  <line x1="725" y1="398" x2="960" y2="398" class="wireframe-line-thin" />
+
+  <!-- Notification 3 -->
+  <text x="735" y="416" font-size="8" font-weight="bold" class="wireframe-text">No Surat 051/ADM/2021 telah</text>
+  <text x="735" y="428" font-size="8" font-weight="bold" class="wireframe-text">melewati retensi &amp; siap dimusnahkan</text>
+  <!-- Small clock icon -->
+  <circle cx="742" cy="441" r="3" class="wireframe-line-thin" />
+  <line x1="742" y1="439" x2="742" y2="441" class="wireframe-line-thin" />
+  <line x1="742" y1="441" x2="744" y2="441" class="wireframe-line-thin" />
+  <text x="750" y="444" font-size="8" class="wireframe-text-muted">7 jam yang lalu</text>
+  <line x1="725" y1="452" x2="960" y2="452" class="wireframe-line-thin" />
+</svg>
