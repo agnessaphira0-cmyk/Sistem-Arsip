@@ -9,6 +9,7 @@ use App\Models\Retensi;
 use App\Models\Notifikasi;
 use Illuminate\Support\Facades\Storage;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 
 class DokumenController extends Controller
 {
@@ -41,198 +42,204 @@ class DokumenController extends Controller
     }
 
     /**
-     * Menampilkan daftar semua dokumen arsip.
+     * Tampilkan daftar dokumen (Manajemen Dokumen) beserta filter.
      */
     public function index(Request $request)
     {
         $dokumens = $this->filteredDokumens($request);
-        $boxes = Box::with('rak')->get();
+        $boxes = Box::with('rak')->latest()->get();
 
-        $tahunList = Retensi::selectRaw('YEAR(tgl_kadaluarsa) as tahun')
-            ->distinct()
-            ->orderByDesc('tahun')
-            ->pluck('tahun');
-
-        return view('dokumen.index', compact('dokumens', 'boxes', 'tahunList'));
+        return view('dokumen.index', compact('dokumens', 'boxes'));
     }
 
     /**
-     * Menampilkan halaman form tambah dokumen baru.
+     * Tampilkan form input dokumen baru.
      */
     public function create()
     {
-        $boxes = Box::with('rak')->get();
+        $boxes = Box::with('rak')->latest()->get();
         return view('dokumen.create', compact('boxes'));
     }
 
     /**
-     * Menyimpan data dokumen baru beserta relasi retensi dan file PDF.
+     * Simpan dokumen baru dan buat relasi jadwal retensi secara otomatis.
      */
     public function store(Request $request)
     {
         $request->validate([
-            'no_surat'       => 'required|string|max:100',
-            'nama_dokumen'   => 'required|string|max:255',
-            'kategori'       => 'required|string|max:100',
-            'box_id'         => 'required|exists:boxes,id',
-            'tgl_masuk'      => 'required|date',
-            'jenis'          => 'required|in:fisik,digital',
-            'file_path'      => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
-            'tgl_kadaluarsa' => 'required|date|after:tgl_masuk',
+            'no_surat'      => 'nullable|string|max:255',
+            'nama_dokumen'  => 'required|string|max:255',
+            'kategori'      => 'required|string',
+            'box_id'        => 'required|exists:boxes,id',
+            'jenis'         => 'required|in:fisik,digital',
+            'tgl_masuk'     => 'required|date',
+            'masa_simpan'   => 'required', // Dropdown Masa Simpan (Tahun) dari Form
+            'file'          => 'nullable|file|mimes:pdf|max:10240', // Max 10MB
+            'keterangan'    => 'nullable|string',
         ]);
 
-        // Proses upload file digital jika melampirkan berkas
-        $filePath = null;
-        if ($request->hasFile('file_path')) {
-            $filePath = $request->file('file_path')->store('dokumens', 'public');
+        $dokumen = new Dokumen();
+        $dokumen->no_surat = $request->no_surat;
+        $dokumen->nama_dokumen = $request->nama_dokumen;
+        $dokumen->kategori = $request->kategori;
+        $dokumen->box_id = $request->box_id;
+        $dokumen->jenis = $request->jenis;
+        $dokumen->tgl_masuk = $request->tgl_masuk;
+        $dokumen->keterangan = $request->keterangan;
+
+        if ($request->hasFile('file')) {
+            $path = $request->file('file')->store('dokumens', 'public');
+            $dokumen->file = $path;
         }
 
-        // Simpan data utama dokumen ke database
-        $dokumen = Dokumen::create([
-            'no_surat'     => $request->no_surat,
-            'nama_dokumen' => $request->nama_dokumen,
-            'kategori'     => $request->kategori,
-            'box_id'       => $request->box_id,
-            'tgl_masuk'    => $request->tgl_masuk,
-            'jenis'        => $request->jenis,
-            'file_path'    => $filePath,
-            'keterangan'   => $request->keterangan,
-        ]);
+        $dokumen->save();
 
-        // Otomatis membuat baris aturan retensi pelacakan masa aktif berkas
-        Retensi::create([
-            'dokumen_id'     => $dokumen->id,
-            'tgl_mulai'      => $request->tgl_masuk,
-            'tgl_kadaluarsa' => $request->tgl_kadaluarsa,
-            'status'         => 'aktif',
-            'ket_retensi'    => $request->ket_retensi,
-        ]);
+        // SIMPAN RELASI RETENSI OTOMATIS (Mencegah Error Carbon & Masuk ke Halaman Siap Musnah)
+        $retensi = new Retensi();
+        $retensi->dokumen_id = $dokumen->id;
+        
+        // Hitung tgl_kadaluarsa: tgl_masuk + (int) masa_simpan
+        $calculatedDate = Carbon::parse($request->tgl_masuk)->addYears((int)$request->masa_simpan);
+        $retensi->tgl_kadaluarsa = $calculatedDate;
+        $retensi->ket_retensi = "Retensi dokumen selama " . $request->masa_simpan . " tahun terhitung sejak tanggal masuk.";
+        
+        // Cek langsung status retensinya berdasarkan tanggal hari ini
+        $retensi->status = $calculatedDate->isPast() ? 'kadaluarsa' : 'aktif';
+        $retensi->save();
 
-        return redirect()->route('dokumen.index')->with('success', 'Dokumen berhasil disimpan!');
+        return redirect()->route('dokumen.index')->with('success', 'Dokumen dan Jadwal Retensi Berhasil Disimpan.');
     }
 
     /**
-     * Menampilkan informasi detail sebuah dokumen beserta QR Code.
+     * Tampilkan detail dokumen (Internal Admin).
      */
     public function show($id)
     {
-        $dokumen = Dokumen::with(['box.rak', 'retensi'])->findOrFail($id);
+        $dokumen = Dokumen::with('box.rak', 'retensi')->findOrFail($id);
         return view('dokumen.show', compact('dokumen'));
     }
 
     /**
-     * Menampilkan halaman form edit data dokumen.
+     * Tampilkan form edit data dokumen.
      */
-    public function edit(Dokumen $dokumen)
+    public function edit($id)
     {
-        $boxes = Box::with('rak')->get();
+        $dokumen = Dokumen::with('retensi')->findOrFail($id);
+        $boxes = Box::with('rak')->latest()->get();
+        
         return view('dokumen.edit', compact('dokumen', 'boxes'));
     }
 
     /**
-     * Memperbarui data dokumen dan mengganti file lama di storage.
+     * Perbarui data dokumen dan hitung ulang jadwal retensinya di DB.
      */
-    public function update(Request $request, Dokumen $dokumen)
+    public function update(Request $request, $id)
     {
         $request->validate([
-            'no_surat'       => 'required|string|max:100',
-            'nama_dokumen'   => 'required|string|max:255',
-            'kategori'       => 'required|string|max:100',
-            'box_id'         => 'required|exists:boxes,id',
-            'tgl_masuk'      => 'required|date',
-            'jenis'          => 'required|in:fisik,digital',
-            'file_path'      => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:5120',
-            'tgl_kadaluarsa' => 'required|date',
+            'no_surat'      => 'nullable|string|max:255',
+            'nama_dokumen'  => 'required|string|max:255',
+            'kategori'      => 'required|string',
+            'box_id'        => 'required|exists:boxes,id',
+            'jenis'         => 'required|in:fisik,digital',
+            'tgl_masuk'     => 'required|date',
+            'masa_simpan'   => 'required', // Input Masa Simpan Baru
+            'file'          => 'nullable|file|mimes:pdf|max:10240',
+            'keterangan'    => 'nullable|string',
         ]);
 
-        $filePath = $dokumen->file_path;
+        $dokumen = Dokumen::findOrFail($id);
+        $dokumen->no_surat = $request->no_surat;
+        $dokumen->nama_dokumen = $request->nama_dokumen;
+        $dokumen->kategori = $request->kategori;
+        $dokumen->box_id = $request->box_id;
+        $dokumen->jenis = $request->jenis;
+        $dokumen->tgl_masuk = $request->tgl_masuk;
+        $dokumen->keterangan = $request->keterangan;
 
-        // Jika ada unggahan file baru, hapus file fisik lama agar storage tidak penuh
-        if ($request->hasFile('file_path')) {
-            if ($dokumen->file_path) {
-                Storage::disk('public')->delete($dokumen->file_path);
+        if ($request->hasFile('file')) {
+            if ($dokumen->file) {
+                Storage::disk('public')->delete($dokumen->file);
             }
-            $filePath = $request->file('file_path')->store('dokumens', 'public');
+            $path = $request->file('file')->store('dokumens', 'public');
+            $dokumen->file = $path;
         }
 
-        // Update data tabel dokumen
-        $dokumen->update([
-            'no_surat'     => $request->no_surat,
-            'nama_dokumen' => $request->nama_dokumen,
-            'kategori'     => $request->kategori,
-            'box_id'       => $request->box_id,
-            'tgl_masuk'    => $request->tgl_masuk,
-            'jenis'        => $request->jenis,
-            'file_path'    => $filePath,
-            'keterangan'   => $request->keterangan,
-        ]);
+        $dokumen->save();
 
-        // Sinkronisasi pembaruan aturan retensi berkas
-        if ($dokumen->retensi) {
-            $dokumen->retensi->update([
-                'tgl_mulai'      => $request->tgl_masuk,
-                'tgl_kadaluarsa' => $request->tgl_kadaluarsa,
-                'ket_retensi'    => $request->ket_retensi,
-            ]);
-        }
+        // UPDATE DATA RETENSI DINAMIS TERHUBUNG
+        $retensi = Retensi::firstOrNew(['dokumen_id' => $dokumen->id]);
+        
+        $calculatedDate = Carbon::parse($request->tgl_masuk)->addYears((int)$request->masa_simpan);
+        $retensi->tgl_kadaluarsa = $calculatedDate;
+        $retensi->ket_retensi = "Retensi dokumen diperbarui menjadi " . $request->masa_simpan . " tahun.";
+        $retensi->status = $calculatedDate->isPast() ? 'kadaluarsa' : 'aktif';
+        
+        $retensi->save();
 
-        return redirect()->route('dokumen.index')->with('success', 'Dokumen berhasil diupdate!');
+        return redirect()->route('dokumen.index')->with('success', 'Data Dokumen Berhasil Diperbarui.');
     }
 
     /**
-     * Menghapus dokumen dari database beserta file fisiknya di storage.
+     * Hapus dokumen beserta file salinan digital dan data retensinya.
      */
-    public function destroy(Dokumen $dokumen)
+    public function destroy($id)
     {
-        if ($dokumen->file_path) {
-            Storage::disk('public')->delete($dokumen->file_path);
+        $dokumen = Dokumen::findOrFail($id);
+
+        if ($dokumen->file) {
+            Storage::disk('public')->delete($dokumen->file);
         }
+
+        // Hapus otomatis data retensinya agar database tetap bersih
+        Retensi::where('dokumen_id', $dokumen->id)->delete();
         $dokumen->delete();
-        return redirect()->route('dokumen.index')->with('success', 'Dokumen berhasil dihapus!');
+
+        return redirect()->route('dokumen.index')->with('success', 'Dokumen Berhasil Dihapus.');
     }
 
     /**
-     * Fitur Pencarian Dokumen (Aman dari Bug & Tergrup Sempurna).
+     * Fitur Pencarian Dinamis (Search AJAX/Form).
      */
     public function search(Request $request)
     {
-        // Mengamankan kata kunci pencarian jika bernilai null / kosong
-        $keyword = $request->input('keyword', '');
-
-        // Menjalankan pencarian logis multi-kolom yang aman menggunakan Query Grouping
-        $dokumens = Dokumen::with('box.rak')
-            ->where(function($query) use ($keyword) {
-                $query->where('nama_dokumen', 'like', "%{$keyword}%")
-                      ->orWhere('no_surat', 'like', "%{$keyword}%")
-                      ->orWhere('kategori', 'like', "%{$keyword}%");
+        $search = $request->get('q');
+        
+        $dokumens = Dokumen::with('box.rak', 'retensi')
+            ->where(function ($query) use ($search) {
+                $query->where('nama_dokumen', 'LIKE', "%{$search}%")
+                      ->orWhere('no_surat', 'LIKE', "%{$search}%")
+                      ->orWhere('kategori', 'LIKE', "%{$search}%")
+                      ->orWhere('keterangan', 'LIKE', "%{$search}%");
             })
             ->latest()
             ->get();
 
-        return view('dokumen.search', compact('dokumens', 'keyword'));
+        $boxes = Box::with('rak')->latest()->get();
+
+        return view('dokumen.index', compact('dokumens', 'boxes'));
     }
 
     /**
-     * Cetak Laporan Arsip ke format PDF (mendukung filter box, tahun retensi, status).
+     * Cetak Laporan PDF Data Dokumen Internal TI.
      */
     public function exportPdf(Request $request)
     {
         $dokumens = $this->filteredDokumens($request);
-        $pdf = Pdf::loadView('dokumen.pdf', compact('dokumens'));
-        return $pdf->download('Laporan_Arsip_Dokumen_Bank_Sumut.pdf');
+        $pdf = Pdf::loadView('dokumen.pdf', compact('dokumens'))->setPaper('a4', 'landscape');
+        
+        return $pdf->stream('laporan-arsip-dokumen-' . date('Y-m-d') . '.pdf');
     }
 
     /**
-     * Cetak Laporan Arsip ke format CSV/Excel (mendukung filter box, tahun retensi, status).
+     * Cetak Laporan Excel Data Dokumen Internal TI.
      */
     public function exportExcel(Request $request)
     {
         $dokumens = $this->filteredDokumens($request);
-        $filename = "Laporan_Arsip_Dokumen_Bank_Sumut.csv";
 
         $headers = [
             "Content-type"        => "text/csv",
-            "Content-Disposition" => "attachment; filename=$filename",
+            "Content-Disposition" => "attachment; filename=laporan-arsip-dokumen-" . date('Y-m-d') . ".csv",
             "Pragma"              => "no-cache",
             "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
             "Expires"             => "0"
@@ -245,22 +252,36 @@ class DokumenController extends Controller
             fputcsv($file, $columns);
 
             foreach ($dokumens as $i => $dok) {
-                fputcsv($file, [
-                    $i + 1,
-                    $dok->no_surat ?? '-',
-                    $dok->nama_dokumen,
-                    $dok->kategori,
-                    $dok->box->kode_box ?? '-',
-                    $dok->box->rak->kode_rak ?? '-',
-                    ucfirst($dok->jenis),
-                    $dok->tgl_masuk,
-                    $dok->retensi->status ?? '-',
-                    $dok->retensi->tgl_kadaluarsa ?? '-',
+                fputcsv($file, [\
+                    $i + 1,\
+                    $dok->no_surat ?? '-',\
+                    $dok->nama_dokumen,\
+                    $dok->kategori,\
+                    $dok->box->kode_box ?? '-',\
+                    $dok->box->rak->kode_rak ?? '-',\
+                    ucfirst($dok->jenis),\
+                    $dok->tgl_masuk,\
+                    $dok->retensi->status ?? '-',\
+                    $dok->retensi->tgl_kadaluarsa ?? '-',\
                 ]);
             }
             fclose($file);
         };
 
         return response()->stream($callback, 200, $headers);
+    }
+
+    /**
+     * =========================================================================
+     * GRUP JALUR PUBLIK: KHUSUS HP SCAN QR CODE BYPASS LOGIN SATPAM
+     * =========================================================================
+     */
+    public function showPublic($id)
+    {
+        // Mengambil data dokumen beserta relasi box dan rak-nya sesuai ERD
+        $dokumen = Dokumen::with('box.rak', 'retensi')->findOrFail($id);
+        
+        // Melempar data ke halaman verifikasi publik tanpa sidebar admin
+        return view('dokumen.public_show', compact('dokumen'));
     }
 }

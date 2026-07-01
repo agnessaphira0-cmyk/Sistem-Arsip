@@ -20,7 +20,13 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout.get'); // fallback GET logout
 
-// Grouping Hak Akses Khusus Admin IT Bank Sumut
+// =========================================================================
+// GRUP JALUR PUBLIK: KHUSUS UNTUK HP SCAN QR CODE (TANPA LOGIN)
+// =========================================================================
+Route::get('/dokumen/{id}', [DokumenController::class, 'showPublic'])->name('dokumen.public.show');
+
+
+// Grouping Hak Akses Khusus Admin IT Bank Sumut (PROTECTED)
 Route::middleware('auth.admin')->group(function () {
 
     // Dashboard Utama
@@ -36,6 +42,8 @@ Route::middleware('auth.admin')->group(function () {
     Route::get('/dokumen/export-pdf', [DokumenController::class, 'exportPdf'])->name('dokumen.export.pdf');
     Route::get('/dokumen/export-excel', [DokumenController::class, 'exportExcel'])->name('dokumen.export.excel');
     Route::get('/dokumen-search', [DokumenController::class, 'search'])->name('dokumen.search');
+    
+    // Resource route dokumen tetap aman untuk pengelolaan internal admin
     Route::resource('dokumen', DokumenController::class)->parameters([
         'dokumen' => 'dokumen'
     ]);
@@ -52,7 +60,6 @@ Route::middleware('auth.admin')->group(function () {
     Route::post('/notifikasi-baca-semua', [NotifikasiController::class, 'tandaiSemuaBaca'])->name('notifikasi.baca.semua');
 
     // Otoritas Keamanan Pengguna Aplikasi (Manajemen User)
-    // Index, edit & update bisa diakses admin & superadmin
     Route::get('/user', [UserController::class, 'index'])->name('user.index');
     Route::get('/user/{user}/edit', [UserController::class, 'edit'])->name('user.edit');
     Route::put('/user/{user}', [UserController::class, 'update'])->name('user.update');
